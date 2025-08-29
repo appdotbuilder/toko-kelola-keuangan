@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppShell } from '@/components/app-shell';
+import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -82,7 +82,7 @@ export default function Dashboard() {
     };
 
     return (
-        <AppShell>
+        <AppLayout>
             <Head title="Dashboard Toko" />
             
             <div className="space-y-6">
@@ -368,6 +368,6 @@ export default function Dashboard() {
                     </Card>
                 </div>
             </div>
-        </AppShell>
+        </AppLayout>
     );
 }

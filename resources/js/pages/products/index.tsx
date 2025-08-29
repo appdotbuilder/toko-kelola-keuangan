@@ -1,7 +1,9 @@
 import React from 'react';
-import { AppShell } from '@/components/app-shell';
+import AppLayout from '@/layouts/app-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Plus, Eye, Edit, Trash2 } from 'lucide-react';
 
 interface Product {
     id: number;
@@ -43,8 +45,14 @@ export default function ProductsIndex() {
         }).format(amount);
     };
 
+    const handleDelete = (product: Product) => {
+        if (confirm(`Yakin ingin menghapus produk "${product.name}"?`)) {
+            router.delete(route('products.destroy', product.id));
+        }
+    };
+
     return (
-        <AppShell>
+        <AppLayout>
             <Head title="Kelola Produk" />
             
             <div className="space-y-6">
@@ -60,12 +68,11 @@ export default function ProductsIndex() {
                         </p>
                     </div>
                     
-                    <Link
-                        href={route('products.create')}
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                        <span>➕</span>
-                        Tambah Produk
+                    <Link href={route('products.create')}>
+                        <Button>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Tambah Produk
+                        </Button>
                     </Link>
                 </div>
 
@@ -108,18 +115,23 @@ export default function ProductsIndex() {
                                     )}
 
                                     <div className="flex gap-2 pt-2">
-                                        <Link
-                                            href={route('products.show', product.id)}
-                                            className="flex-1 text-center bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded text-sm transition-colors"
-                                        >
-                                            Lihat
+                                        <Link href={route('products.show', product.id)}>
+                                            <Button variant="outline" size="sm">
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
                                         </Link>
-                                        <Link
-                                            href={route('products.edit', product.id)}
-                                            className="flex-1 text-center bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded text-sm transition-colors"
-                                        >
-                                            Edit
+                                        <Link href={route('products.edit', product.id)}>
+                                            <Button variant="outline" size="sm">
+                                                <Edit className="w-4 h-4" />
+                                            </Button>
                                         </Link>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => handleDelete(product)}
+                                        >
+                                            <Trash2 className="w-4 h-4 text-red-500" />
+                                        </Button>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -133,17 +145,16 @@ export default function ProductsIndex() {
                             <p className="text-gray-600 mb-4">
                                 Mulai dengan menambahkan produk pertama Anda
                             </p>
-                            <Link
-                                href={route('products.create')}
-                                className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                            >
-                                <span>➕</span>
-                                Tambah Produk Pertama
+                            <Link href={route('products.create')}>
+                                <Button>
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Tambah Produk Pertama
+                                </Button>
                             </Link>
                         </CardContent>
                     </Card>
                 )}
             </div>
-        </AppShell>
+        </AppLayout>
     );
 }
